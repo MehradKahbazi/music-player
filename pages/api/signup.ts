@@ -4,6 +4,11 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import prisma from "../../lib/prisma";
 
+// todo: handle other http verbs
+// todo: proper error handling and response
+// todo: modularize reusable code
+// todo: put secret in an env var
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const salt = bcrypt.genSaltSync();
   const { email, password } = req.body;

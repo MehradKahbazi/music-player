@@ -15,6 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email,
       },
     });
+
     if (user && bcrypt.compareSync(password, user.password)) {
       const { password, ...userWithoutPassword } = user;
       const token = jwt.sign(
@@ -39,10 +40,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           secure: process.env.NODE_ENV === "production",
         }),
       );
+      console.log(userWithoutPassword);
 
       res.json({
         user: userWithoutPassword,
       });
+    } else {
+      res.status(401);
+      res.json({ error: "Unauthorized user" });
     }
   } catch (e) {
     res.status(401);

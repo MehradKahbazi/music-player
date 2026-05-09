@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Song" ADD COLUMN     "album" TEXT,
+ADD COLUMN     "coverArtUrl" TEXT,
+ADD COLUMN     "filePath" TEXT,
+ADD COLUMN     "genre" TEXT,
+ADD COLUMN     "year" TEXT,
+ALTER COLUMN "duration" DROP NOT NULL,
+ALTER COLUMN "duration" SET DATA TYPE DOUBLE PRECISION,
+ALTER COLUMN "url" DROP NOT NULL;

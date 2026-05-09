@@ -15,6 +15,7 @@ import {
   MdLibraryMusic,
   MdPlaylistAdd,
   MdFavorite,
+  MdAdd,
 } from "react-icons/md";
 import CustomMenuItem from "./CustomMenuItem";
 import { usePlaylist } from "../../lib/hooks";
@@ -32,6 +33,7 @@ const navMenu = [
 ];
 
 const musicMenu = [
+  { name: "Add Music", icon: MdAdd, route: "/upload-music" },
   { name: "Create Playlist", icon: MdPlaylistAdd, route: "/" },
   { name: "Favorites", icon: MdFavorite, route: "/favorites" },
 ];

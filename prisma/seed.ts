@@ -32,27 +32,46 @@ const run = async () => {
     create: {
       email: "user@test.com",
       password: bcrypt.hashSync("password", salt),
-      firstName: 'Mehrad',
-      lastName: 'Kahbazi'
+      firstName: "Mehrad",
+      lastName: "Kahbazi",
     },
   });
 
   const songs = prisma.song.findMany({});
-  await Promise.all(
-    new Array(10).fill(1).map(async (_, i) => {
-      return prisma.playlist.create({
-        data: {
-          name: `Playlist #${i + 1}`,
-          user: {
-            connect: { id: user.id },
-          },
-          songs: {
-            connect: (await songs).map((song) => ({ id: song.id })),
-          },
-        },
-      });
-    }),
-  );
+  await prisma.playlist.create({
+    data: {
+      name: `Cloud Playlist`,
+      user: {
+        connect: { id: user.id },
+      },
+      songs: {
+        connect: (await songs).map((song) => ({ id: song.id })),
+      },
+    },
+  });
+  await prisma.playlist.create({
+    data: {
+      name: `Recently Added`,
+      user: {
+        connect: { id: user.id },
+      },
+    },
+  });
+  // await Promise.all(
+  //   new Array(10).fill(1).map(async (_, i) => {
+  //     return prisma.playlist.create({
+  //       data: {
+  //         name: `Playlist #${i + 1}`,
+  //         user: {
+  //           connect: { id: user.id },
+  //         },
+  //         songs: {
+  //           connect: (await songs).map((song) => ({ id: song.id })),
+  //         },
+  //       },
+  //     });
+  //   }),
+  // );
 };
 
 run()

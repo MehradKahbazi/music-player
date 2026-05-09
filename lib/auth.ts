@@ -20,7 +20,7 @@ export const validateRoute = (handler) => {
         res.json({ error: "Noth authorized" });
         return;
       }
-      return handler(req, res, user);
+      return handler(req, res, { ...user, password: undefined });
     }
     res.status(401);
     res.json({ error: "Noth authorized" });

@@ -6,9 +6,9 @@ import { useMe } from "../lib/hooks";
 
 const Home = ({ artists }) => {
   const { user, isLoading } = useMe();
-  
-  if(isLoading){
-    return null
+
+  if (isLoading) {
+    return null;
   }
   return (
     <GradientLayout
@@ -16,13 +16,13 @@ const Home = ({ artists }) => {
       subtitle="profile"
       title={`${user?.firstName} ${user?.lastName}`}
       description={`${user?.playListCount} public playlist`}
-      image="/sample.webp"
+      image={user?.imageUrl || "/prof.avif"}
       roundImage
     >
       <Box color="white" paddingX="40px">
         <Box marginBottom="40px">
           <Text fontSize="2xl" fontWeight="bold">
-            Top artisi this month
+            Top artists this month
           </Text>
           <Text fontSize="md">Only visible to you</Text>
         </Box>
@@ -30,7 +30,10 @@ const Home = ({ artists }) => {
           {artists.map((artist) => (
             <Box paddingX="10px" width="20%">
               <Box bg="grey.900" borderRadius="4px" padding="15px" width="100%">
-                <Image src="/sample.webp" borderRadius="100%" />
+                <Image
+                  src={!artist?.imageUrl ? "/artist.avif" : artist?.imageUrl}
+                  borderRadius="100%"
+                />
                 <Box marginTop="20px">
                   <Text fontSize="large">{artist.name}</Text>
                   <Text fontSize="x-small">Artist</Text>

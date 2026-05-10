@@ -28,11 +28,12 @@ model Song {
   updatedAt   DateTime   @updatedAt
   name        String
   artist      Artist     @relation(fields: [artistId], references: [id])
+  album       Album      @relation(fields: [albumId], references: [id])
+  albumId     Int
   artistId    Int
   playlists   Playlist[]
   url         String?
   filePath    String?
-  album       String?
   genre       String?
   year        String?
   duration    Float?
@@ -46,6 +47,7 @@ model Artist {
   songs     Song[]
   name      String   @unique
   imageUrl  String?
+  albums    Album[]
 }
 
 model Playlist {
@@ -56,4 +58,16 @@ model Playlist {
   songs     Song[]
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+}
+
+model Album {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  songs       Song[]
+  artist      Artist   @relation(fields: [artistId], references: [id])
+  artistId    Int
+  albumArtUrl String?
+  year        String?
+  genre       String?
 }

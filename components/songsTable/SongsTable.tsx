@@ -55,7 +55,7 @@ const SongsTable = ({ songs }) => {
               >
                 <Td>{i + 1}</Td>
                 <Td>{song.name}</Td>
-                <Td>Album</Td>
+                <Td>{song.album.name}</Td>
                 <Td>{formatDate(song.createdAt)}</Td>
                 <Td>{formatTime(song.duration)}</Td>
               </Tr>

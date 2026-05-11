@@ -3,6 +3,7 @@ import { Image } from "@chakra-ui/react";
 import GradientLayout from "../components/gradientLayout/GradientLayout";
 import prisma from "../lib/prisma";
 import { useMe } from "../lib/hooks";
+import ContentCard from "../components/content/ContentCard";
 
 const Home = ({ artists }) => {
   const { user, isLoading } = useMe();
@@ -26,29 +27,27 @@ const Home = ({ artists }) => {
           </Text>
           <Text fontSize="md">Only visible to you</Text>
         </Box>
-        <Flex>
-          {artists.map((artist) => (
-            <Box paddingX="10px" width="20%">
-              <Box bg="grey.900" borderRadius="4px" padding="15px" width="100%">
-                <Image
-                  src={!artist?.imageUrl ? "/artist.avif" : artist?.imageUrl}
-                  borderRadius="100%"
-                />
-                <Box marginTop="20px">
-                  <Text fontSize="large">{artist.name}</Text>
-                  <Text fontSize="x-small">Artist</Text>
-                </Box>
-              </Box>
-            </Box>
-          ))}
-        </Flex>
+        <ContentCard items={artists} cat="artist" />
       </Box>
     </GradientLayout>
   );
 };
 
 export const getServerSideProps = async () => {
-  const artists = await prisma.artist.findMany({});
+  const artists = await prisma.artist.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 5,
+    select:{
+      id: true,
+      imageUrl: true,
+      name: true,
+      _count:{
+        select:{
+          songs: true,
+        }
+      }
+    }
+  });
 
   return {
     props: {

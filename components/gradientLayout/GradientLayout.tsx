@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import { Button, Image } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import { useRef } from "react";
 
 const GradientLayout = ({
@@ -12,6 +12,7 @@ const GradientLayout = ({
   roundImage,
   edit = false,
   id,
+  type,
 }) => {
   const fileRef = useRef(null);
 
@@ -23,7 +24,7 @@ const GradientLayout = ({
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("image", file); // Matches 'files.image' in API
-    formData.append("type", "user"); // 'user' or 'artist'
+    formData.append("type", type); // 'user' or 'artist'
     formData.append("id", id); // The record ID
 
     try {
@@ -34,7 +35,6 @@ const GradientLayout = ({
 
       const result = await response.json();
       if (response.ok) {
-        console.log("Success:", result);
         return result.url;
       }
       alert(result.message);
@@ -42,6 +42,7 @@ const GradientLayout = ({
       console.error("Upload failed", error);
     }
   };
+  const imageurllength = image.split("/").length;
 
   return (
     <Box
@@ -59,7 +60,7 @@ const GradientLayout = ({
             <Image
               boxSize="160px"
               boxShadow="2xl"
-              src={`api/images/${image}`}
+              src={imageurllength < 3 ? image : `api/images/${image}`}
               borderRadius={roundImage ? "100%" : "3px"}
             />
             {edit && (

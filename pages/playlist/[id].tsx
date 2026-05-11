@@ -62,6 +62,12 @@ export const getServerSideProps = async ({ query, req }) => {
               id: true,
             },
           },
+          album: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
       },
     },

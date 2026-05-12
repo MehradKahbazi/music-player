@@ -30,7 +30,7 @@ const Artist = ({ artist }) => {
       description={`${artist?._count.songs} ${
         artist?._count.songs === 1 ? "song" : "songs"
       }`}
-      image={artist?.image || "/artist.avif"}
+      image={artist?.imageUrl || "/artist.avif"}
       type="artist"
       id={artist.id}
       edit
@@ -72,6 +72,7 @@ export const getServerSideProps = async ({ query, req }) => {
       },
     },
   });
+  
 
   return {
     props: {

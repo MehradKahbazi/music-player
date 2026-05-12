@@ -5,7 +5,8 @@ import { validateRoute } from "../../../lib/auth";
 
 export default validateRoute(
   async (req: NextApiRequest, res: NextApiResponse) => {
-    const { path: pathSegments } = req.query;
+    if (req.method === "GET") {
+      const { path: pathSegments } = req.query;
 
     if (!pathSegments || !Array.isArray(pathSegments)) {
       return res.status(400).json({ error: "Invalid path" });
@@ -45,5 +46,8 @@ export default validateRoute(
     } catch (error) {
       return res.status(500).send("Server Error");
     }
-  },
+  }
+  return res.status(405).json({ message: "Method not allowed" });
+}
+
 );

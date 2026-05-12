@@ -60,7 +60,7 @@ const GradientLayout = ({
             <Image
               boxSize="160px"
               boxShadow="2xl"
-              src={imageurllength < 3 ? image : `api/images/${image}`}
+              src={imageurllength < 3 ? image : `/api/images/${image}`}
               borderRadius={roundImage ? "100%" : "3px"}
             />
             {edit && (

@@ -5,7 +5,7 @@ import ProfileForm from "../components/forms/ProfileForm";
 
 const Profile = () => {
   const { user, isLoading } = useMe();
-  // const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   return (
     <GradientLayout
       color="blue"
@@ -18,7 +18,7 @@ const Profile = () => {
       id={user?.id}
       type="user"
     >
-      <ProfileForm isLoading={isLoading} />
+      <ProfileForm isLoading={isLoading} setMessage={setMessage} />
     </GradientLayout>
   );
 };

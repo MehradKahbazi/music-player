@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import prisma from "../../lib/prisma";
+import { signJwt } from "../../lib/auth";
 
 // todo: handle other http verbs
 // todo: proper error handling and response
 // todo: modularize reusable code
-// todo: put secret in an env var
+// todo: put secret in an env var✅
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const salt = bcrypt.genSaltSync();
+  if (req.method === "POST") {
+    const salt = bcrypt.genSaltSync();
   const { email, password } = req.body;
   let user;
 
@@ -23,20 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } catch (e) {
     res.status(401);
-    res.json({ error: "User already exists" });
-    return;
+    return res.json({ error: "User already exists" });
+    
   }
-  const token = jwt.sign(
-    {
-      email: user.email,
-      id: user.id,
-      time: Date.now(),
-    },
-    "hello",
-    {
-      expiresIn: "8h",
-    },
-  );
+  const token = signJwt(user);
 
   res.setHeader(
     "Set-Cookie",
@@ -49,7 +40,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }),
   );
 
-  res.json({
+  return res.json({
     user,
   });
+}
+return res.status(405).json({ message: "Method not allowed" });
 };

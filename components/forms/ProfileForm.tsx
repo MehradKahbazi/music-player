@@ -1,7 +1,23 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
 
-const ProfileForm = ({ isLoading }) => {
+const ProfileForm = ({ isLoading, setMessage }) => {
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      firstName: formData.get("first-name"),
+      lastName: formData.get("last-name"),
+      email: formData.get("email"),
+    };
+    const res = await fetch("/api/me", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    setMessage(result.message);
+  };
   return (
     <Box color="white" paddingX="40px">
       <Flex justify="space-around" width="100%">
@@ -10,19 +26,19 @@ const ProfileForm = ({ isLoading }) => {
             <Text fontSize="sm" margin="5px">
               First Name
             </Text>
-            <Input type="text" />
+            <Input type="text" name="first-name" />
           </Box>
           <Box marginTop="15px">
             <Text fontSize="sm" margin="5px">
               Last Name
             </Text>
-            <Input type="text" />
+            <Input type="text" name="last-name" />
           </Box>
           <Box marginTop="15px">
             <Text fontSize="sm" margin="5px">
               Email
             </Text>
-            <Input type="text" />
+            <Input type="text" name="email" />
           </Box>
 
           <Box marginTop="30px">
@@ -38,6 +54,7 @@ const ProfileForm = ({ isLoading }) => {
                 },
               }}
               isLoading={isLoading}
+              onClick={handlesubmit}
             >
               Update
             </Button>

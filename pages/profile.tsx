@@ -2,6 +2,7 @@
 import GradientLayout from "../components/gradientLayout/GradientLayout";
 import { useMe } from "../lib/hooks";
 import ProfileForm from "../components/forms/ProfileForm";
+import { useState } from "react";
 
 const Profile = () => {
   const { user, isLoading } = useMe();

@@ -4,6 +4,7 @@ import { Image } from "@chakra-ui/react";
 
 const ContentCard = ({ items, cat }) => {
 
+  
   return (
     <Flex>
       {items?.map((item) => (
@@ -12,11 +13,12 @@ const ContentCard = ({ items, cat }) => {
           <Box bg="grey.900" borderRadius="4px" padding="15px" width="100%">
             <Image
               src={
-                !item?.albumArtUrl || item?.imageUrl
+                !item?.albumArtUrl && !item?.imageUrl
                   ? "/artist.avif"
                   : `/api/images/${item?.albumArtUrl || item?.imageUrl}`
               }
               borderRadius="100%"
+              height={180}
             />
             <Box marginTop="20px" color="white">
               <Text fontSize="large">{item?.name}</Text>
